@@ -33,6 +33,7 @@ export const signupAction = (creds: any) => async (dispatch: any) => {
       creds
     );
     dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+    return true
   } catch (error) {
     dispatch({ type: REGISTER_ERROR });
   }

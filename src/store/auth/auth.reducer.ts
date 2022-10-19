@@ -5,6 +5,9 @@ const initialValue ={
     error:false,
     jwt:""
 }
+
+let jwt = localStorage.getItem("jwt") || ""
+
 export const authReducer = (state=initialValue,action:any)=>{
         switch(action.type){
             case REGISTER_LOADING :{
@@ -22,6 +25,7 @@ export const authReducer = (state=initialValue,action:any)=>{
                 }
             }
             case REGISTER_SUCCESS:{
+                console.log(action)
                 return {
                     ...state,
                     loading:false,
@@ -45,6 +49,7 @@ export const authReducer = (state=initialValue,action:any)=>{
                 }
             }
             case LOGIN_SUCCESS:{
+                localStorage.setItem("jwt",JSON.stringify(action.payload))
                 return {
                     ...state,
                     loading:false,
@@ -54,6 +59,7 @@ export const authReducer = (state=initialValue,action:any)=>{
             }
 
             case LOGOUT_SUCCESS:{
+                
                 return {
                     loading:false,
                     error:false,

@@ -9,6 +9,7 @@ import {
   Text,
   Flex,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { FaLessThan } from "react-icons/fa";
@@ -32,6 +33,7 @@ const initialvalue = {
 export default function SignUpModalForm(props: params) {
   const [show, setShow] = useState<boolean>(false);
   const [creds,setCreds]=useState<any>(initialvalue)
+   const snackBar=useToast()
   const dispatch=useDispatch()
   const onChange =(e:ChangeEvent<HTMLInputElement>)=>{
       const {name,value} = e.target;
@@ -40,7 +42,31 @@ export default function SignUpModalForm(props: params) {
 
   const handleSignUp =()=>{
     console.log(creds)
-    dispatch<any>(signupAction(creds))
+    dispatch<any>(signupAction(creds)).then((res:boolean)=>{
+       
+      if(res){
+        snackBar({
+        title: 'Account created.',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+       props.openSignUpModalForm()
+      }
+        
+        else {
+          // props.closeSignInModalForm()
+          // props.closeSignInModel()
+          snackBar({
+            title: 'Wrong Creds',
+            description: "Email already exists",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          })
+        } 
+    })
   }
 
   return (

@@ -17,6 +17,7 @@ import { useState } from "react";
 import { FaLessThan } from "react-icons/fa";
 import {TfiEmail} from "react-icons/tfi"
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { signinAction } from "../../store/auth/auth.action";
 
 
@@ -32,26 +33,29 @@ type params={
 export default function SignInModalForm(props:params) {
   const [email,setEmail]=useState<any>("")
    const dispatch = useDispatch<any>();
+   const navigate = useNavigate()
    const snackBar=useToast()
 
   const handleSignIn = ()=>{
     console.log(email)
     dispatch(signinAction(email)).then((res:any)=>{
       
-      if(res)
-          snackBar({
-          title: 'Account created.',
-          description: "We've created your account for you.",
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
+      if(res){
+        snackBar({
+        title: 'Signed In successful',
+        description: "Signed in to HomePage",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+        navigate("/home")
+      }
         else {
           // props.closeSignInModalForm()
           // props.closeSignInModel()
           snackBar({
             title: 'Wrong Creds',
-            description: "Enter original email.",
+            description: "Email and password wrong",
             status: 'error',
             duration: 3000,
             isClosable: true,
